@@ -30,7 +30,6 @@ two.on('child_added', snap => {
 
     array = [];
     array.push(user);
-    console.log(user);
     localStorage.setObject("usu", array);
 
 });

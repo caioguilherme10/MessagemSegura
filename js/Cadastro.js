@@ -45,7 +45,7 @@ firebase.auth().onAuthStateChanged(firebaseUser =>{
             email : novoEmail.value
         }).key;
 
-        //alert("Feito com sucesso")
+        swal("Feito com sucesso")
         
     }
 
