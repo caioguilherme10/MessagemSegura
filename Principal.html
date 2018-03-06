@@ -986,6 +986,9 @@ $("#status-options ul li").click(function() {
 });
 
 function newMessage() {
+
+  newMessagem.innerHTML = "";
+
 	message = $(".message-input input").val();
 	if($.trim(message) == '') {
 		return false;
@@ -1008,20 +1011,22 @@ function newMessage() {
         var encryptS = new JSEncrypt();
         encryptS.setPublicKey(snapshot.val().keyPub);
         var encryptedS = encryptS.encrypt(message);
-        
-        newMessagem.innerHTML = "";
 
         firebase.database().ref('message/').push({
           keyS : keyS,
           keyR : keyR,
           messagemR : encryptedR,
           messagemS : encryptedS
-        }).key;
+        }, function(error){
+          if (error) {
+            //alert("Data could not be saved." + error);
+          } else {
+            //alert("Data saved successfully.");
+            const dbRefList3 = dbRefObjec.child('message');
 
-        const dbRefList3 = dbRefObjec.child('message');
-        
         var decrypt = new JSEncrypt();
-
+        var array3 = localStorage.getObject("usu");
+        decrypt.setPrivateKey(array3[0].keyPri);
         dbRefList3.on('child_added', snap4 => {
 
           if((snap4.val().keyS == keyS)&&(snap4.val().keyR == keyR)){
@@ -1039,12 +1044,15 @@ function newMessage() {
             var uncrypted = decrypt.decrypt(snap4.val().messagemR);
 
             newMessagem.innerHTML += "<li class='replies'>"+
-                                    "<img src='http://emilcarlsson.se/assets/louislitt.png' alt='' />"+
-                                    "<p>"+ uncrypted+"</p>"+
-                                    "</li>";
+                                "<img src='http://emilcarlsson.se/assets/louislitt.png' alt='' />"+
+                                "<p>"+ uncrypted+"</p>"+
+                                "</li>";
           }
 
-        });
+      });
+          }
+        }).key;
+
       });
     });
     /*const dbRefObjec100 = firebase.database().ref();
@@ -1064,7 +1072,7 @@ function newMessage() {
     //}).key;
   }
 	//$('<li class="sent"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><p>' + message + '</p></li>').appendTo($('.messages ul'));
-	//$('.message-input input').val(null);
+	$('.message-input input').val(null);
 	//$('.contact.active .preview').html('<span>You: </span>' + message);
   //$(".messages").animate({ scrollTop: $(document).height() }, "fast");
   
@@ -1083,4 +1091,39 @@ $(window).on('keydown', function(e) {
 });
 //# sourceURL=pen.js
 </script>
+<!--<script>
+  var keyR1 = document.getElementById('keyR');
+    var keyS1 = document.getElementById('keyS');
+
+    var keyR = keyR1.textContent;
+    var keyS = keyS1.textContent;
+    const dbRefObjec200 = firebase.database().ref();
+const dbRefList3 = dbRefObjec200.child('message');
+
+var decrypt = new JSEncrypt();
+
+dbRefList3.on('child_changed', snap4 => {
+
+  if((snap4.val().keyS == keyS)&&(snap4.val().keyR == keyR)){
+
+    var uncrypted = decrypt.decrypt(snap4.val().messagemS);
+
+    newMessagem.innerHTML += "<li class='sent'>"+
+                            "<img src='http://emilcarlsson.se/assets/louislitt.png' alt='' />"+
+                            "<p>"+ uncrypted+"</p>"+
+                            "</li>";
+  }
+
+  if((snap4.val().keyR == keyS)&&(snap4.val().keyS == keyR)){
+
+    var uncrypted = decrypt.decrypt(snap4.val().messagemR);
+
+    newMessagem.innerHTML += "<li class='replies'>"+
+                            "<img src='http://emilcarlsson.se/assets/louislitt.png' alt='' />"+
+                            "<p>"+ uncrypted+"</p>"+
+                            "</li>";
+  }
+
+});
+</script>-->
 </body></html>
