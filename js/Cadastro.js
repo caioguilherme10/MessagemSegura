@@ -41,8 +41,11 @@ firebase.auth().onAuthStateChanged(firebaseUser =>{
 
         firebase.database().ref('pessoas').push({
             name : novoName.value,
-            keyPub : novocrypt.getPublicKey()
+            keyPub : novocrypt.getPublicKey(),
+            email : novoEmail.value
         }).key;
+
+        alert("Feito com sucesso")
         
     }
 

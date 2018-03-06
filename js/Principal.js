@@ -47,8 +47,7 @@ dbRefList.on('child_added', snap2 => {
     if(snap2.val().name == array2[0].name){
 
     }else{
-
-        contacts.innerHTML += "<ul  onclick=escolhido('" + snap2.val().nome+ ","+ snap2.val().keyPub +","+ snap2.key + "')>"+
+        contacts.innerHTML += "<ul  onclick=escolhido('" + snap2.val().name+ "','"+ snap2.val().email +"','"+ snap2.key + "')>"+
                         "<li class='contact'>"+
                         "<div class='wrap'>"+
                         "<span class='contact-status online'></span>"+
@@ -71,7 +70,7 @@ dbRefList.on('child_changed', snap2 => {
     if(snap2.val().name == array2[0].name){
 
     }else{
-        contacts.innerHTML += "<ul onclick=escolhido('" + snap2.val().nome +","+ snap2.val().keyPub +","+ snap2.key +"')>"+
+        contacts.innerHTML += "<ul onclick=escolhido('" + snap2.val().name +"','"+ snap2.val().email +"','"+ snap2.key +"')>"+
                         "<li class='contact'>"+
                         "<div class='wrap'>"+
                         "<span class='contact-status online'></span>"+
@@ -87,49 +86,61 @@ dbRefList.on('child_changed', snap2 => {
 
 });
 
-function escolhido(nome,keyPub,keyU) {
+function escolhido(nome,email,keyU) {
 
-    document.getElementById("nomeChat").innerHTML = nome;
+    document.getElementById("keyR").innerHTML = keyU;
 
-    var decrypt = new JSEncrypt();
+    const dbRefList20 = dbRefObjec.child('pessoas').orderByChild('email').equalTo(email);
+
+    dbRefList20.on('child_added', snap20 =>{
+
+        var keyPub = snap20.val().keyPub;
+
+        document.getElementById("nomeChat").innerHTML = nome;
+
+        var decrypt = new JSEncrypt();
     
-    const dbRefList2 = dbRefObjec.child('pessoas');
+        const dbRefList2 = dbRefObjec.child('pessoas');
 
-    dbRefList2.on('child_added', snap3 => {
+        dbRefList2.on('child_added', snap3 => {
 
-        var array3 = localStorage.getObject("usu");
+            document.getElementById("keyS").innerHTML = snap3.key;
 
-        decrypt.setPrivateKey(array3[0].keyPri);
+            var array3 = localStorage.getObject("usu");
+
+            decrypt.setPrivateKey(array3[0].keyPri);
             
-        if(snap3.val().name == array3[0].name){
-            
-            const dbRefList3 = dbRefObjec8.child('message');
+            if(snap3.val().name == array3[0].name){
 
-            dbRefList3.on('child_added', snap4 => {
+                const dbRefList3 = dbRefObjec.child('message');
 
-                if((snap4.val().keyS == snap3.key)&&(snap4.val().keyR == keyU)){
+                dbRefList3.on('child_added', snap4 => {
 
-                    var uncrypted = decrypt.decrypt(snap4.val().messagemS);
+                    if((snap4.val().keyS == snap3.key)&&(snap4.val().keyR == keyU)){
 
-                    newMessagem.innerHTML += "<li class='sent'>"+
-					                        "<img src='http://emilcarlsson.se/assets/louislitt.png' alt='' />"+
-					                        "<p>"+ uncrypted+"</p>"+
-				                            "</li>";
-                }
-                if((snap4.val().keyR == snap3.key)&&(snap4.val().keyS == keyU)){
+                        var uncrypted = decrypt.decrypt(snap4.val().messagemS);
 
-                    var uncrypted = decrypt.decrypt(snap4.val().messagemR);
+                        newMessagem.innerHTML += "<li class='sent'>"+
+					                            "<img src='http://emilcarlsson.se/assets/louislitt.png' alt='' />"+
+					                            "<p>"+ uncrypted+"</p>"+
+				                                "</li>";
+                    }
+                    if((snap4.val().keyR == snap3.key)&&(snap4.val().keyS == keyU)){
 
-                    newMessagem.innerHTML += "<li class='replies'>"+
-					                        "<img src='http://emilcarlsson.se/assets/louislitt.png' alt='' />"+
-					                        "<p>"+ uncrypted+"</p>"+
-				                            "</li>";
-                }
-            });
-        }else{
-        }
+                        var uncrypted = decrypt.decrypt(snap4.val().messagemR);
 
+                        newMessagem.innerHTML += "<li class='replies'>"+
+					                            "<img src='http://emilcarlsson.se/assets/louislitt.png' alt='' />"+
+					                            "<p>"+ uncrypted+"</p>"+
+				                                "</li>";
+                    }
+                });
+            }else{
+            }
+
+        });
     });
+    
 
 }
 
