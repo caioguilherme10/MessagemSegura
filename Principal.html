@@ -1017,7 +1017,7 @@ function newMessage() {
           keyR : keyR,
           messagemR : encryptedR,
           messagemS : encryptedS
-        }, function(error){
+        }/*, function(error){
           if (error) {
             //alert("Data could not be saved." + error);
           } else {
@@ -1051,7 +1051,7 @@ function newMessage() {
 
       });
           }
-        }).key;
+        })*/).key;
 
       });
     });
