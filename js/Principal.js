@@ -88,6 +88,8 @@ dbRefList.on('child_changed', snap2 => {
 
 function escolhido(nome,email,keyU) {
 
+    newMessagem.innerHTML = ""; 
+
     document.getElementById("keyR").innerHTML = keyU;
 
     const dbRefList20 = dbRefObjec.child('pessoas').orderByChild('email').equalTo(email);
@@ -104,17 +106,42 @@ function escolhido(nome,email,keyU) {
 
         dbRefList2.on('child_added', snap3 => {
 
-            document.getElementById("keyS").innerHTML = snap3.key;
-
             var array3 = localStorage.getObject("usu");
 
             decrypt.setPrivateKey(array3[0].keyPri);
             
             if(snap3.val().name == array3[0].name){
 
+                document.getElementById("keyS").innerHTML = snap3.key;
+
                 const dbRefList3 = dbRefObjec.child('message');
 
                 dbRefList3.on('child_added', snap4 => {
+
+                    var keyS1 = document.getElementById('keyS');
+                    var keyS = keyS1.textContent;
+
+                    if((snap4.val().keyS == keyS)&&(snap4.val().keyR == keyU)){
+
+                        var uncrypted = decrypt.decrypt(snap4.val().messagemS);
+
+                        newMessagem.innerHTML += "<li class='sent'>"+
+					                            "<img src='http://emilcarlsson.se/assets/louislitt.png' alt='' />"+
+					                            "<p>"+ uncrypted+"</p>"+
+				                                "</li>";
+                    }
+                    if((snap4.val().keyR == keyS)&&(snap4.val().keyS == keyU)){
+
+                        var uncrypted = decrypt.decrypt(snap4.val().messagemR);
+
+                        newMessagem.innerHTML += "<li class='replies'>"+
+					                            "<img src='http://emilcarlsson.se/assets/louislitt.png' alt='' />"+
+					                            "<p>"+ uncrypted+"</p>"+
+				                                "</li>";
+                    }
+                });
+
+                dbRefList3.on('child_changed', snap4 => {
 
                     if((snap4.val().keyS == snap3.key)&&(snap4.val().keyR == keyU)){
 
@@ -135,6 +162,7 @@ function escolhido(nome,email,keyU) {
 				                                "</li>";
                     }
                 });
+
             }else{
             }
 

@@ -996,21 +996,17 @@ function newMessage() {
 
     var keyR = keyR1.textContent;
     var keyS = keyS1.textContent;
-    console.log(message);
 
     firebase.database().ref('pessoas/' + keyR).once('value').then(function(snapshot) {
       //var username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
       // ...
-      console.log(snapshot.val().keyPub);
       var encryptR = new JSEncrypt();
       encryptR.setPublicKey(snapshot.val().keyPub);
       var encryptedR = encryptR.encrypt(message);
-      console.log(encryptedR);
       firebase.database().ref('pessoas/' + keyS).once('value').then(function(snapshot) {
         var encryptS = new JSEncrypt();
         encryptS.setPublicKey(snapshot.val().keyPub);
         var encryptedS = encryptS.encrypt(message);
-        console.log(encryptedS);
 
         firebase.database().ref('message/').push({
           keyS : keyS,
