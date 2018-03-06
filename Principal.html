@@ -996,6 +996,7 @@ function newMessage() {
 
     var keyR = keyR1.textContent;
     var keyS = keyS1.textContent;
+    const dbRefObjec = firebase.database().ref();
 
     firebase.database().ref('pessoas/' + keyR).once('value').then(function(snapshot) {
       //var username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
@@ -1007,6 +1008,8 @@ function newMessage() {
         var encryptS = new JSEncrypt();
         encryptS.setPublicKey(snapshot.val().keyPub);
         var encryptedS = encryptS.encrypt(message);
+        
+        newMessagem.innerHTML = "";
 
         firebase.database().ref('message/').push({
           keyS : keyS,
@@ -1014,6 +1017,34 @@ function newMessage() {
           messagemR : encryptedR,
           messagemS : encryptedS
         }).key;
+
+        const dbRefList3 = dbRefObjec.child('message');
+        
+        var decrypt = new JSEncrypt();
+
+        dbRefList3.on('child_added', snap4 => {
+
+          if((snap4.val().keyS == keyS)&&(snap4.val().keyR == keyR)){
+
+            var uncrypted = decrypt.decrypt(snap4.val().messagemS);
+
+            newMessagem.innerHTML += "<li class='sent'>"+
+                                    "<img src='http://emilcarlsson.se/assets/louislitt.png' alt='' />"+
+                                    "<p>"+ uncrypted+"</p>"+
+                                    "</li>";
+          }
+
+          if((snap4.val().keyR == keyS)&&(snap4.val().keyS == keyR)){
+
+            var uncrypted = decrypt.decrypt(snap4.val().messagemR);
+
+            newMessagem.innerHTML += "<li class='replies'>"+
+                                    "<img src='http://emilcarlsson.se/assets/louislitt.png' alt='' />"+
+                                    "<p>"+ uncrypted+"</p>"+
+                                    "</li>";
+          }
+
+        });
       });
     });
     /*const dbRefObjec100 = firebase.database().ref();
