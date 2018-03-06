@@ -141,7 +141,7 @@ function escolhido(nome,email,keyU) {
                     }
                 });
 
-                dbRefList3.on('child_changed', snap4 => {
+                /*dbRefList3.on('child_changed', snap4 => {
 
                     if((snap4.val().keyS == snap3.key)&&(snap4.val().keyR == keyU)){
 
@@ -161,7 +161,7 @@ function escolhido(nome,email,keyU) {
 					                            "<p>"+ uncrypted+"</p>"+
 				                                "</li>";
                     }
-                });
+                });*/
 
             }else{
             }
