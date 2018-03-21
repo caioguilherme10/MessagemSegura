@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html>
     <head>
-        <!--Let browser know website is optimized for mobile-->
+        Let browser know website is optimized for mobile
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta charset="utf-8">
         <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
@@ -11,4 +11,67 @@
         <script type="text/javascript" src="localStoragePlus.js"></script>
         <script type="text/javascript" src="teste.js"></script>
     </body>
+</html>-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Cadastro</title>
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+    <link rel="stylesheet" href="css/cadastro.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body class="container">
+      <div class="loginCadastro">
+        <h1 id="centralizarTexto">Cadastro de Usuário</h1>
+        <form class="formLogin" action="front.do" method="post" enctype="multipart/form-data">
+          <div class="col-md-4">
+            <h3 id="centralizarTexto">Dados para login</h3>
+            <input type="text" name="login" value="" placeholder="Login" class="campo" required="required">
+            <input type="password" name="senha" value="" placeholder="Senha" class="campo" required="required">
+            <h3 id="centralizarTexto">Foto do Perfil</h3>
+            <input type="file" name="fotoPerfil" id="uploadImagem" class="input" accept="image/*" required="required">
+          </div>
+          <div class="col-md-8">
+			<h3 id="centralizarTexto">Dados pessoais</h3>
+			<div class="col-md-6">
+		  	  <input type="text" name="nome" value="" placeholder="Seu nome" class="campo" required="required">
+			  <input type="email" name="email" value="" placeholder="Seu Email" class="campo" required="required">
+			  <input type="text" name="cidade" value="" placeholder="Cidade" class="campo" required="required">
+			  <input type="date" name="dataDeNascimento" value="" placeholder="Data de Nascimento" class="campo" required="required">
+			  <input type="text" name="apelido" value="" placeholder="Apelido" class="campo" required="required">
+			  <input type="text" name="profissao" value="" placeholder="Profissão" class="campo" required="required">
+			</div>
+			<div class="col-md-6">
+			  <input type="text" name="descricao" value="" placeholder="Breve Descrição" class="campo" required="required">
+			  <input name="status" type="hidden" value="Solteiro" required="required">
+			  <input type="number" min="0" max="3" step="0.01" name="altura" value="" placeholder="Sua Altura" class="campo" required="required">
+			  <input type="number" min="0" max="200" step="0.1" name="peso" value="" placeholder="Seu Peso" class="campo" required="required">
+			  <select required="required" class="form-control" name="corDoCabelo" style="height: 40px;">
+			    <option>Preto</option>
+			    <option>Castanho</option>
+			    <option>Loiro</option>
+			    <option>Platinado</option>
+			    <option>Ruivo</option>
+			  </select>
+        <br>
+			  <!-- <input type="text" name="corDoCabelo" value="" placeholder="Cor do Cabelo" class="campo" required="required"> -->
+			  <input type="text" name="passatempos" value="" placeholder="Passatempos" class="campo" required="required">
+		    </div>
+			<input type="hidden" name="action" value="CadastroUsuario">
+          </div>
+          <input type="reset" value="Limpar Campos" class="submit imp" style="margin-left:30%;">
+          <input type="submit" name="" value="Cadastrar" class="submit imp">
+        </form>
+        <br><br>
+      </div>
+      <script src="js/jquery.min.js"></script>
+      <script src="js/purl.js"></script>
+      <script type="text/javascript">
+        url = purl();
+        if(url.param("error") == 1)
+          alert("email ou login ja cadastrado");
+      </script>
+      <script src="js/bootstrap.min.js"></script>
+  </body>
 </html>
