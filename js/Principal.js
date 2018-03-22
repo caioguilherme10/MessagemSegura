@@ -45,10 +45,14 @@ dbRefList.on('child_added', snap2 => {
 
     let name = snap2.val().name;
 
+    let name2 = `caio guilherme`;
+
+    let name3 = name.split(' ');
+
     if(name == array2[0].name){
 
     }else{
-        contacts.innerHTML += "<ul  onclick=escolhido(`" +name+ "`,'"+ snap2.val().email +"','"+ snap2.key +"')>"+
+        contacts.innerHTML += "<ul  onclick=escolhido(`" +name3+ "`,`"+ snap2.val().email +"`,`"+ snap2.key +"`)>"+
                         "<li class='contact'>"+
                         "<div class='wrap'>"+
                         "<span class='contact-status online'></span>"+
@@ -72,10 +76,12 @@ dbRefList.on('child_changed', snap2 => {
 
     let name = snap2.val().name;
 
+    let name3 = name.split(' ');
+
     if(name == array2[0].name){
 
     }else{
-        contacts.innerHTML += "<ul onclick=escolhido(`" + name +"`,'"+ snap2.val().email +"','"+ snap2.key +"')>"+
+        contacts.innerHTML += "<ul onclick=escolhido(`" + name3 +"`,'"+ snap2.val().email +"','"+ snap2.key +"')>"+
                         "<li class='contact'>"+
                         "<div class='wrap'>"+
                         "<span class='contact-status online'></span>"+
@@ -98,6 +104,8 @@ function escolhido(nome,email,keyU) {
     //,email,keyU
     newMessagem.innerHTML = ""; 
 
+    let nome4 = nome.replace(/,/g,' ');
+
     document.getElementById("keyR").innerHTML = keyU;
 
     const dbRefList20 = dbRefObjec.child('pessoas').orderByChild('email').equalTo(email);
@@ -106,7 +114,7 @@ function escolhido(nome,email,keyU) {
 
         var keyPub = snap20.val().keyPub;
 
-        document.getElementById("nomeChat").innerHTML = nome;
+        document.getElementById("nomeChat").innerHTML = nome4;
 
         var decrypt = new JSEncrypt();
     
