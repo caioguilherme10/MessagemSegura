@@ -75,7 +75,7 @@ dbRefList.on('child_changed', snap2 => {
     if(name == array2[0].name){
 
     }else{
-        contacts.innerHTML += "<ul onclick='escolhido('" + name +"','"+ snap2.val().email +"','"+ snap2.key +"')'>"+
+        contacts.innerHTML += "<ul onclick='escolhido('" + name +"')'>"+
                         "<li class='contact'>"+
                         "<div class='wrap'>"+
                         "<span class='contact-status online'></span>"+
@@ -88,6 +88,8 @@ dbRefList.on('child_changed', snap2 => {
                         "</li>"+
                         "</ul>";
     }
+
+    //,'"+ snap2.val().email +"','"+ snap2.key +"'
 
 });
 
@@ -175,7 +177,7 @@ function escolhido(nome,email,keyU) {
     });
     
 
-}
+};
 
 firebase.auth().onAuthStateChanged(firebaseUser =>{
     if(firebaseUser){
