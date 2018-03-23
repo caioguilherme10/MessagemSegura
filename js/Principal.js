@@ -14,6 +14,10 @@ var array = localStorage.getObject("usu");
 
 const dbRefObjec = firebase.database().ref();
 
+let dbRefList20 = dbRefObjec;
+let dbRefList2 = dbRefObjec;
+let dbRefList3 = dbRefObjec;
+
 const two = dbRefObjec.child('users').orderByChild('email').equalTo(array[0].email);
 
 two.on('child_added', snap => {
@@ -99,9 +103,6 @@ dbRefList.on('child_changed', snap2 => {
 
 });
 
-let dbRefList20;
-let dbRefList2;
-let dbRefList3;
 
 function escolhido(nome,email,keyU) {
 
