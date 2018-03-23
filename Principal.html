@@ -1006,7 +1006,8 @@ function newMessage() {
       // ...
       var encryptR = new JSEncrypt();
       encryptR.setPublicKey(snapshot.val().keyPub);
-      var encryptedR = encryptR.encrypt(message);
+      var encryptedR = encryptR.encrypt(message);//encripted msg (receiver)
+
       firebase.database().ref('pessoas/' + keyS).once('value').then(function(snapshot) {
         var encryptS = new JSEncrypt();
         encryptS.setPublicKey(snapshot.val().keyPub);

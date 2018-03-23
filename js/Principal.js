@@ -76,12 +76,12 @@ dbRefList.on('child_changed', snap2 => {
 
     let name = snap2.val().name;
 
-    let name3 = name.split(' ');
+    let name3 = name.split(' ');//name3[0], name3[1] 
 
     if(name == array2[0].name){
 
     }else{
-        contacts.innerHTML += "<ul onclick=escolhido(`" + name3 +"`,'"+ snap2.val().email +"','"+ snap2.key +"')>"+
+        contacts.innerHTML += "<ul onclick=escolhido('" + name3 +"','"+ snap2.val().email +"','"+ snap2.key +"')>"+
                         "<li class='contact'>"+
                         "<div class='wrap'>"+
                         "<span class='contact-status online'></span>"+
@@ -99,7 +99,15 @@ dbRefList.on('child_changed', snap2 => {
 
 });
 
+let dbRefList20;
+let dbRefList2;
+let dbRefList3;
+
 function escolhido(nome,email,keyU) {
+
+    dbRefList20.off();
+    dbRefList2.off();
+    dbRefList3.off();
 
     //,email,keyU
     newMessagem.innerHTML = ""; 
@@ -108,7 +116,7 @@ function escolhido(nome,email,keyU) {
 
     document.getElementById("keyR").innerHTML = keyU;
 
-    const dbRefList20 = dbRefObjec.child('pessoas').orderByChild('email').equalTo(email);
+    dbRefList20 = dbRefObjec.child('pessoas').orderByChild('email').equalTo(email);
 
     dbRefList20.on('child_added', snap20 =>{
 
@@ -118,7 +126,7 @@ function escolhido(nome,email,keyU) {
 
         var decrypt = new JSEncrypt();
     
-        const dbRefList2 = dbRefObjec.child('pessoas');
+        dbRefList2 = dbRefObjec.child('pessoas');
 
         dbRefList2.on('child_added', snap3 => {
 
@@ -130,7 +138,7 @@ function escolhido(nome,email,keyU) {
 
                 document.getElementById("keyS").innerHTML = snap3.key;
 
-                const dbRefList3 = dbRefObjec.child('message');
+                dbRefList3 = dbRefObjec.child('message');
 
                 dbRefList3.on('child_added', snap4 => {
 
